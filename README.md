@@ -1,39 +1,32 @@
-<p align="center"><img src="assets/banner.svg" alt="CYBERSORA - solo dev / AI tools / desktop apps" width="100%"></p>
+<img src="assets/banner.svg" alt="CYBERSORA: studio, AI tools, desktop apps. Built by winterdropsdead" width="100%">
 
-## `WHO I AM`
-<img src="assets/strip-who.svg" width="100%" height="10" alt="">
+<img src="assets/h-who.svg" alt="01 WHO WE ARE" width="100%">
+<img src="assets/p-who.svg" alt="Cybersora is a studio. The person behind it on GitHub is winterdropsdead. We build desktop apps, local-first tools and AI assistants for real clients." width="100%">
 
-Hey, I'm **Cybersora**, a solo developer from Gorlice, Poland. I build desktop apps, local-first tools and AI assistants, and I ship them under my own brand: [cybersora.pl](https://cybersora.pl). Not a template, not a tutorial: real software for real people.
+<img src="assets/h-what.svg" alt="02 WHAT WE BUILD" width="100%">
 
-## `WHAT I DO`
-<img src="assets/strip-what.svg" width="100%" height="10" alt="">
+<table>
+<tr>
+<td width="50%"><a href="https://github.com/cybersora9/soraflux"><img src="assets/c-soraflux.svg" alt="SoraFlux: free local video, audio, image and GIF converter. Tauri 2 and Rust. Public." width="100%"></a></td>
+<td width="50%"><a href="https://github.com/cybersora9/pycodemath"><img src="assets/c-pycodemath.svg" alt="Pycodemath: exact math for AI agents. Public." width="100%"></a></td>
+</tr>
+<tr>
+<td width="50%"><a href="https://cybersora.pl"><img src="assets/c-site.svg" alt="cybersora.pl: terminal-style site running in the browser. Public." width="100%"></a></td>
+<td width="50%"><img src="assets/c-somi.svg" alt="SOMI: personal AI assistant. Private." width="100%"></td>
+</tr>
+<tr>
+<td width="50%"><img src="assets/c-salondesk.svg" alt="SalonDesk: desktop app for beauty salons. Private." width="100%"></td>
+<td width="50%"><img src="assets/c-more.svg" alt="More projects, not public yet." width="100%"></td>
+</tr>
+</table>
 
-| | Project | What it is |
-|---|---|---|
-| 🎞️ | [**SoraFlux**](https://github.com/cybersora9/soraflux) | Free, local video / audio / image / GIF converter. Tauri 2 + Rust, no telemetry. |
-| ∑ | [**Pycodemath**](https://github.com/cybersora9/pycodemath) | Token-efficient exact math for AI agents. SymPy + NumPy, ODE suite, optimizer, code generator. |
-| 🌐 | [**cybersora.pl**](https://github.com/cybersora9/cybersora-pages) | My site: a terminal-style OS in the browser. |
-| 🤖 | **SOMI** | Personal AI assistant with voice, terminal and an offers radar. *(private)* |
-| 💈 | **SalonDesk** | Desktop app for beauty salons, running in a real salon. *(private)* |
+<img src="assets/h-vision.svg" alt="03 VISION" width="100%">
+<img src="assets/p-vision.svg" alt="Software that runs on your machine and respects your data. One job per tool, done well." width="100%">
 
-## `VISION`
-<img src="assets/strip-vision.svg" width="100%" height="10" alt="">
+<img src="assets/h-stack.svg" alt="04 STACK" width="100%">
+<img src="assets/stack.svg" alt="Rust, Python, JavaScript, Tauri, SQLite, Three.js, Next.js, HTML/CSS, Git, Discord API" width="100%">
 
-Software that runs on your machine, respects your data and does one job well. Small team, high standards, zero fluff.
+<img src="assets/h-beyond.svg" alt="05 BEYOND CODE" width="100%">
+<img src="assets/p-beyond.svg" alt="Music production, game design, terminal toys, and tools we wish already existed." width="100%">
 
-## `STACK`
-<img src="assets/strip-stack.svg" width="100%" height="10" alt="">
-
-<p>
-<img src="https://skillicons.dev/icons?i=rust,python,js,html,css,tauri,sqlite,threejs,nextjs,git,github,discord&perline=6" alt="Rust, Python, JavaScript, HTML, CSS, Tauri, SQLite, Three.js, Next.js, Git, GitHub, Discord">
-</p>
-
-## `BEYOND CODE`
-<img src="assets/strip-beyond.svg" width="100%" height="10" alt="">
-
-Music production, game design, and building tools I wish existed.
-
-<p align="center">
-<a href="https://cybersora.pl"><img src="https://img.shields.io/badge/website-cybersora.pl-00e5ff?style=for-the-badge&labelColor=0a0e14" alt="Website"></a>
-<a href="https://github.com/cybersora9/soraflux"><img src="https://img.shields.io/badge/download-SoraFlux-ff2bd6?style=for-the-badge&labelColor=0a0e14" alt="SoraFlux"></a>
-</p>
+<a href="https://cybersora.pl"><img src="assets/footer.svg" alt="cybersora.pl" width="100%"></a>
