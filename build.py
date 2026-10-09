@@ -69,9 +69,8 @@ t, _ = text(MONO, '// STUDIO  ·  AI TOOLS  ·  DESKTOP APPS', 56, 92, 17, LABEL
 t, wd = text(SORA, 'CYBER', 52, 200, 104, WHITE, -2); b += t
 t, _ = text(SORA, 'SORA', 52 + wd + 10, 200, 104, RED, -2); b += t
 t, _ = text(MONO, 'cybersora.pl', 56, 262, 19, MUTED, 1); b += t
-t, _ = text(MONO, 'built by @winterdropsdead', 56, 288, 15, MUTED, 1); b += t
 b += f'<rect x="0" y="{H - 4}" width="{W}" height="4" fill="{RED}"/>'
-save('banner-2.svg', svg(W, H, b, FL))
+save('banner-3.svg', svg(W, H, b, FL))
 
 # SECTION HEADERS
 for n, (num, lab) in {'who': ('01', 'WHO WE ARE'), 'what': ('02', 'WHAT WE BUILD'), 'vision': ('03', 'VISION'),
@@ -94,10 +93,9 @@ def panel(name, lines, H2, size=19):
     save(name, svg(W2, H2, s))
 
 
-panel('p-who.svg', [('> cybersora is a studio: one name on the door, two people behind it.', WHITE),
-                    ('> the person you meet on GitHub: @winterdropsdead  (account: deadsora).', MUTED),
+panel('p-who-2.svg', [('> cybersora is a software brand.', WHITE),
                     ('> we build desktop apps, local-first tools and AI assistants.', WHITE),
-                    ('> shipped for real clients. not templates, not tutorials.', MUTED)], 170)
+                    ('> shipped for real clients. not templates, not tutorials.', MUTED)], 142)
 panel('p-vision.svg', [('> software that runs on your machine and respects your data.', WHITE),
                        ('> one job per tool, done well. no telemetry, no fluff.', MUTED)], 100)
 panel('p-beyond.svg', [('> music production, game design, terminal toys,', WHITE),

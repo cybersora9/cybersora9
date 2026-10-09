@@ -1,7 +1,7 @@
-<img src="assets/banner-2.svg" alt="CYBERSORA: studio, AI tools, desktop apps. Built by winterdropsdead" width="100%">
+<img src="assets/banner-3.svg" alt="CYBERSORA: studio, AI tools, desktop apps. Software brand" width="100%">
 
 <img src="assets/h-who.svg" alt="01 WHO WE ARE" width="100%">
-<img src="assets/p-who.svg" alt="Cybersora is a studio. The person behind it on GitHub is winterdropsdead. We build desktop apps, local-first tools and AI assistants for real clients." width="100%">
+<img src="assets/p-who-2.svg" alt="Cybersora is a software brand. We build desktop apps, local-first tools and AI assistants for real clients." width="100%">
 
 <img src="assets/h-what.svg" alt="02 WHAT WE BUILD" width="100%">
 
