@@ -1,4 +1,4 @@
-import random, io, zlib
+import random, io, zlib, re
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 from fontTools.pens.svgPathPen import SVGPathPen
@@ -69,8 +69,11 @@ t, _ = text(MONO, '// STUDIO  ·  AI TOOLS  ·  DESKTOP APPS', 56, 92, 17, LABEL
 t, wd = text(SORA, 'CYBER', 52, 200, 104, WHITE, -2); b += t
 t, _ = text(SORA, 'SORA', 52 + wd + 10, 200, 104, RED, -2); b += t
 t, _ = text(MONO, 'cybersora.pl', 56, 262, 19, MUTED, 1); b += t
+LOGO = re.sub(r'^<svg[^>]*>|</svg>$', '', io.open('C:/Users/maisa/Documents/cybersora-assets/logo/cs-blackwall.svg', encoding='utf-8').read().strip())
+b += f'<rect x="852" y="48" width="296" height="224" fill="{INK}" opacity=".92"/><rect x="852" y="48" width="296" height="224" fill="none" stroke="{LINE}"/><rect x="852" y="48" width="296" height="3" fill="{RED}"/>'
+b += f'<svg x="880" y="86" width="240" height="149" viewBox="0 0 134 100">{LOGO}</svg>'
 b += f'<rect x="0" y="{H - 4}" width="{W}" height="4" fill="{RED}"/>'
-save('banner-3.svg', svg(W, H, b, FL))
+save('banner-4.svg', svg(W, H, b, FL))
 
 # SECTION HEADERS
 for n, (num, lab) in {'who': ('01', 'WHO WE ARE'), 'what': ('02', 'WHAT WE BUILD'), 'vision': ('03', 'VISION'),
@@ -102,27 +105,31 @@ panel('p-beyond.svg', [('> music production, game design, terminal toys,', WHITE
                        ('> and tools we wish already existed.', MUTED)], 100)
 
 
-def card(name, title, desc, tag, pub=True):
+def card(name, title, desc, tag, pub=True, ver=None):
     W2, H2 = 588, 150
     s = f'<rect width="{W2}" height="{H2}" fill="{PANEL}"/><rect width="{W2}" height="3" fill="{RED if pub else LINE}"/>'
-    t, _ = text(SORA, title, 24, 58, 28, WHITE if pub else MUTED, 0); s += t
+    s += f'<rect x="24" y="28" width="44" height="44" rx="4" fill="{INK}" stroke="{RED if pub else LINE}"/>'
+    t, _ = text(SORA, title[0].upper(), 46, 59, 26, RED if pub else MUTED, 0, 'middle'); s += t
+    t, _ = text(SORA, title, 84, 60, 28, WHITE if pub else MUTED, 0); s += t
     for i, ln in enumerate(desc):
-        t, _ = text(MONO, ln, 24, 92 + i * 22, 15, MUTED, 0); s += t
+        t, _ = text(MONO, ln, 24, 100 + i * 22, 15, MUTED, 0); s += t
     label = 'PUBLIC' if pub else 'PRIVATE'
     _, tw = text(MONOB, label, 0, 0, 12, '#fff', 2)
     px = W2 - 24 - tw - 20
-    s += f'<rect x="{px}" y="28" width="{tw + 20}" height="24" rx="12" fill="{RED if pub else "none"}" stroke="{RED if pub else LINE}"/>'
-    t, _ = text(MONOB, label, px + 10, 45, 12, '#fff' if pub else MUTED, 2); s += t
-    t, _ = text(MONO, tag, 24, H2 - 16, 13, LABEL if pub else '#6a626c', 1); s += t
+    s += f'<rect x="{px}" y="30" width="{tw + 20}" height="24" rx="12" fill="{RED if pub else "none"}" stroke="{RED if pub else LINE}"/>'
+    t, _ = text(MONOB, label, px + 10, 47, 12, '#fff' if pub else MUTED, 2); s += t
+    t, _ = text(MONO, tag, W2 - 24, 28 + 24 + 28, 13, LABEL if pub else '#6a626c', 1, 'end'); s += t
+    if ver:
+        t, _ = text(MONOB, ver, W2 - 24, H2 - 18, 15, WHITE, 1, 'end'); s += t
     save(name, svg(W2, H2, s))
 
 
-card('c-soraflux-2.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST')
-card('c-pycodemath.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY')
-card('c-site.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT')
-card('c-somi.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False)
-card('c-salondesk.svg', 'SalonDesk', ['Desktop app for beauty salons,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False)
-card('c-more.svg', '+ more', ['Games, licensing, security tools.', 'Not public yet.'], 'SOON', pub=False)
+card('c-soraflux-3.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.0')
+card('c-pycodemath-2.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY', ver='651 TESTS')
+card('c-site-2.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT', ver='LIVE')
+card('c-somi-2.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False)
+card('c-salondesk-2.svg', 'SalonDesk', ['Desktop app for beauty salons,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False)
+card('c-more-2.svg', '+ more', ['Games, licensing, security tools.', 'Not public yet.'], 'SOON', pub=False)
 
 # STACK chips
 items = ['RUST', 'PYTHON', 'JAVASCRIPT', 'TAURI', 'SQLITE', 'THREE.JS', 'NEXT.JS', 'HTML/CSS', 'GIT', 'DISCORD API']
@@ -148,3 +155,30 @@ t, _ = text(SORA, 'cybersora.pl', 40, 66, 36, WHITE, 0); s += t
 t, _ = text(MONO, 'terminal-style site, free tools, contact', 40, 92, 15, MUTED, 1); s += t
 s += f'<rect x="0" y="{H2 - 3}" width="{W2}" height="3" fill="{RED}"/>'
 save('footer.svg', svg(W2, H2, s, FL))
+
+# STATS
+W2, H2 = 1200, 110
+items = [('4', 'SORAFLUX RELEASES'), ('651', 'PYCODEMATH TESTS'), ('65', 'COMMITS ON CYBERSORA.PL'), ('0', 'TELEMETRY')]
+s = f'<rect width="{W2}" height="{H2}" fill="{INK}"/>'
+cw = 288; gap = 16
+for i, (n, lab) in enumerate(items):
+    x = i * (cw + gap)
+    s += f'<rect x="{x}" y="0" width="{cw}" height="{H2}" fill="{PANEL}"/><rect x="{x}" y="0" width="4" height="{H2}" fill="{RED}"/>'
+    t, _ = text(SORA, n, x + 28, 62, 44, WHITE, 0); s += t
+    t, _ = text(MONOB, lab, x + 28, 92, 12, LABEL, 2); s += t
+save('stats.svg', svg(W2, H2, s))
+
+# BUTTONS
+def button(name, label, sub, primary):
+    W2, H2 = 588, 84
+    s = f'<rect width="{W2}" height="{H2}" fill="{RED if primary else PANEL}"/>'
+    if not primary:
+        s += f'<rect width="{W2}" height="{H2}" fill="none" stroke="{RED}" stroke-width="2"/>'
+    t, _ = text(SORA, label, 28, 40, 26, '#fff' if primary else WHITE, 0); s += t
+    t, _ = text(MONO, sub, 28, 65, 14, '#ffd5da' if primary else MUTED, 1); s += t
+    t, _ = text(SORA, '>', W2 - 28, 52, 34, '#fff' if primary else RED, 0, 'end'); s += t
+    save(name, svg(W2, H2, s))
+
+
+button('b-download.svg', 'Download SoraFlux', 'FREE  ·  WINDOWS  ·  v1.4.0', True)
+button('b-site.svg', 'Visit cybersora.pl', 'THE TERMINAL-STYLE SITE', False)
