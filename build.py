@@ -28,7 +28,7 @@ def text(font, s, x, y, size, fill, track=0, anchor='start'):
     cx = x - (total if anchor == 'end' else total / 2 if anchor == 'middle' else 0)
     d = []
     for g, a in zip(names, adv):
-        pen = SVGPathPen(gs)
+        pen = SVGPathPen(gs, ntos=lambda v: ('%.1f' % v).rstrip('0').rstrip('.'))
         gs[g].draw(TransformPen(pen, (sc, 0, 0, -sc, cx, y)))
         d.append(pen.getCommands()); cx += a
     return f'<path fill="{fill}" d="{" ".join(d)}"/>', total
