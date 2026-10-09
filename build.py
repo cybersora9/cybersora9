@@ -71,7 +71,7 @@ t, _ = text(SORA, 'SORA', 52 + wd + 10, 200, 104, RED, -2); b += t
 t, _ = text(MONO, 'cybersora.pl', 56, 262, 19, MUTED, 1); b += t
 t, _ = text(MONO, 'built by @winterdropsdead', 56, 288, 15, MUTED, 1); b += t
 b += f'<rect x="0" y="{H - 4}" width="{W}" height="4" fill="{RED}"/>'
-save('banner.svg', svg(W, H, b, FL))
+save('banner-2.svg', svg(W, H, b, FL))
 
 # SECTION HEADERS
 for n, (num, lab) in {'who': ('01', 'WHO WE ARE'), 'what': ('02', 'WHAT WE BUILD'), 'vision': ('03', 'VISION'),
@@ -119,7 +119,7 @@ def card(name, title, desc, tag, pub=True):
     save(name, svg(W2, H2, s))
 
 
-card('c-soraflux.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST')
+card('c-soraflux-2.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST')
 card('c-pycodemath.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY')
 card('c-site.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT')
 card('c-somi.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False)

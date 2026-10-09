@@ -1,4 +1,4 @@
-<img src="assets/banner.svg" alt="CYBERSORA: studio, AI tools, desktop apps. Built by winterdropsdead" width="100%">
+<img src="assets/banner-2.svg" alt="CYBERSORA: studio, AI tools, desktop apps. Built by winterdropsdead" width="100%">
 
 <img src="assets/h-who.svg" alt="01 WHO WE ARE" width="100%">
 <img src="assets/p-who.svg" alt="Cybersora is a studio. The person behind it on GitHub is winterdropsdead. We build desktop apps, local-first tools and AI assistants for real clients." width="100%">
@@ -7,7 +7,7 @@
 
 <table>
 <tr>
-<td width="50%"><a href="https://github.com/cybersora9/soraflux"><img src="assets/c-soraflux.svg" alt="SoraFlux: free local video, audio, image and GIF converter. Tauri 2 and Rust. Public." width="100%"></a></td>
+<td width="50%"><a href="https://github.com/cybersora9/soraflux"><img src="assets/c-soraflux-2.svg" alt="SoraFlux: free local video, audio, image and GIF converter. Tauri 2 and Rust. Public." width="100%"></a></td>
 <td width="50%"><a href="https://github.com/cybersora9/pycodemath"><img src="assets/c-pycodemath.svg" alt="Pycodemath: exact math for AI agents. Public." width="100%"></a></td>
 </tr>
 <tr>
