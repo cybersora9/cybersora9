@@ -105,12 +105,30 @@ panel('p-beyond.svg', [('> music production, game design, terminal toys,', WHITE
                        ('> and tools we wish already existed.', MUTED)], 100)
 
 
-def card(name, title, desc, tag, pub=True, ver=None):
+LOGO = 'C:/Users/maisa/Documents/'
+
+
+def mark(path, x, y, size, uid):
+    """Official product mark (own SVG file) nested as <svg>; ids prefixed to avoid clashes."""
+    raw = io.open(LOGO + path, encoding='utf-8').read()
+    vb = re.search(r'viewBox="([^"]+)"', raw).group(1)
+    inner = re.sub(r'^.*?<svg[^>]*>|</svg>\s*$', '', raw, flags=re.S)
+    inner = re.sub(r'<!--.*?-->', '', inner, flags=re.S)
+    inner = re.sub(r'\bid="([^"]+)"', lambda m: f'id="{uid}{m.group(1)}"', inner)
+    inner = re.sub(r'url\(#([^)]+)\)', lambda m: f'url(#{uid}{m.group(1)})', inner)
+    inner = re.sub(r'href="#([^"]+)"', lambda m: f'href="#{uid}{m.group(1)}"', inner)
+    return f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{vb}">{inner}</svg>'
+
+
+def card(name, title, desc, tag, pub=True, ver=None, logo=None):
     W2, H2 = 588, 150
     s = f'<rect width="{W2}" height="{H2}" fill="{PANEL}"/><rect width="{W2}" height="3" fill="{RED if pub else LINE}"/>'
-    s += f'<rect x="24" y="28" width="44" height="44" rx="4" fill="{INK}" stroke="{RED if pub else LINE}"/>'
-    t, _ = text(SORA, title[0].upper(), 46, 59, 26, RED if pub else MUTED, 0, 'middle'); s += t
-    t, _ = text(SORA, title, 84, 60, 28, WHITE if pub else MUTED, 0); s += t
+    if logo:
+        s += mark(logo, 24, 24, 52, name.split('.')[0].replace('-', '') + '_')
+    else:
+        s += f'<rect x="24" y="28" width="44" height="44" rx="4" fill="{INK}" stroke="{LINE}"/>'
+        t, _ = text(SORA, title[0].upper(), 46, 59, 26, MUTED, 0, 'middle'); s += t
+    t, _ = text(SORA, title, 92, 60, 28, WHITE if pub else MUTED, 0); s += t
     for i, ln in enumerate(desc):
         t, _ = text(MONO, ln, 24, 100 + i * 22, 15, MUTED, 0); s += t
     label = 'PUBLIC' if pub else 'PRIVATE'
@@ -124,12 +142,12 @@ def card(name, title, desc, tag, pub=True, ver=None):
     save(name, svg(W2, H2, s))
 
 
-card('c-soraflux-3.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.1')
-card('c-pycodemath-2.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY', ver='651 TESTS')
-card('c-site-2.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT', ver='LIVE')
-card('c-somi-2.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False)
-card('c-salondesk-2.svg', 'SalonDesk', ['Desktop app for beauty salons,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False)
-card('c-more-2.svg', '+ more', ['Games, licensing, security tools.', 'Not public yet.'], 'SOON', pub=False)
+card('c-soraflux-4.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.1', logo='cybersora-assets/logo/produkty/soraflux/soraflux-kafelek-krew.svg')
+card('c-pycodemath-3.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY', ver='651 TESTS', logo='cybersora-assets/logo/produkty/pycodemath/pycodemath-kafelek-krew.svg')
+card('c-site-3.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT', ver='LIVE', logo='cybersora-assets/ikony/ikona-krew.svg')
+card('c-somi-3.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False, logo='cybersora-assets/logo/somi-terminal-kafelek-ink.svg')
+card('c-salondesk-3.svg', 'SalonDesk', ['Desktop app for beauty salons,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False, logo='SalonDesk/assets/znak/salondesk-kafelek-krew.svg')
+card('c-more-3.svg', '+ more', ['Games, licensing, security tools.', 'Not public yet.'], 'SOON', pub=False)
 
 # STACK chips
 items = ['RUST', 'PYTHON', 'JAVASCRIPT', 'TAURI', 'SQLITE', 'THREE.JS', 'NEXT.JS', 'HTML/CSS', 'GIT', 'DISCORD API']

@@ -9,16 +9,16 @@
 
 <table>
 <tr>
-<td width="50%"><a href="https://github.com/cybersora9/soraflux"><img src="assets/c-soraflux-3.svg" alt="SoraFlux: free local video, audio, image and GIF converter. Tauri 2 and Rust. Public." width="100%"></a></td>
-<td width="50%"><a href="https://github.com/cybersora9/pycodemath"><img src="assets/c-pycodemath-2.svg" alt="Pycodemath: exact math for AI agents. Public." width="100%"></a></td>
+<td width="50%"><a href="https://github.com/cybersora9/soraflux"><img src="assets/c-soraflux-4.svg" alt="SoraFlux: free local video, audio, image and GIF converter. Tauri 2 and Rust. Public." width="100%"></a></td>
+<td width="50%"><a href="https://github.com/cybersora9/pycodemath"><img src="assets/c-pycodemath-3.svg" alt="Pycodemath: exact math for AI agents. Public." width="100%"></a></td>
 </tr>
 <tr>
-<td width="50%"><a href="https://cybersora.pl"><img src="assets/c-site-2.svg" alt="cybersora.pl: terminal-style site running in the browser. Public." width="100%"></a></td>
-<td width="50%"><img src="assets/c-somi-2.svg" alt="SOMI: personal AI assistant. Private." width="100%"></td>
+<td width="50%"><a href="https://cybersora.pl"><img src="assets/c-site-3.svg" alt="cybersora.pl: terminal-style site running in the browser. Public." width="100%"></a></td>
+<td width="50%"><img src="assets/c-somi-3.svg" alt="SOMI: personal AI assistant. Private." width="100%"></td>
 </tr>
 <tr>
-<td width="50%"><img src="assets/c-salondesk-2.svg" alt="SalonDesk: desktop app for beauty salons. Private." width="100%"></td>
-<td width="50%"><img src="assets/c-more-2.svg" alt="More projects, not public yet." width="100%"></td>
+<td width="50%"><img src="assets/c-salondesk-3.svg" alt="SalonDesk: desktop app for beauty salons. Private." width="100%"></td>
+<td width="50%"><img src="assets/c-more-3.svg" alt="More projects, not public yet." width="100%"></td>
 </tr>
 </table>
 
