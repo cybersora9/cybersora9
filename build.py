@@ -124,7 +124,7 @@ def card(name, title, desc, tag, pub=True, ver=None):
     save(name, svg(W2, H2, s))
 
 
-card('c-soraflux-3.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.0')
+card('c-soraflux-3.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.1')
 card('c-pycodemath-2.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY', ver='651 TESTS')
 card('c-site-2.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT', ver='LIVE')
 card('c-somi-2.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False)
@@ -158,7 +158,7 @@ save('footer.svg', svg(W2, H2, s, FL))
 
 # STATS
 W2, H2 = 1200, 110
-items = [('4', 'SORAFLUX RELEASES'), ('651', 'PYCODEMATH TESTS'), ('65', 'COMMITS ON CYBERSORA.PL'), ('0', 'TELEMETRY')]
+items = [('5', 'SORAFLUX RELEASES'), ('651', 'PYCODEMATH TESTS'), ('66', 'COMMITS ON CYBERSORA.PL'), ('0', 'TELEMETRY')]
 s = f'<rect width="{W2}" height="{H2}" fill="{INK}"/>'
 cw = 288; gap = 16
 for i, (n, lab) in enumerate(items):
@@ -180,5 +180,5 @@ def button(name, label, sub, primary):
     save(name, svg(W2, H2, s))
 
 
-button('b-download.svg', 'Download SoraFlux', 'FREE  ·  WINDOWS  ·  v1.4.0', True)
+button('b-download.svg', 'Download SoraFlux', 'FREE  ·  WINDOWS  ·  v1.4.1', True)
 button('b-site.svg', 'Visit cybersora.pl', 'THE TERMINAL-STYLE SITE', False)

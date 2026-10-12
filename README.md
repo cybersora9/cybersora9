@@ -3,7 +3,7 @@
 <img src="assets/h-who.svg" alt="01 WHO WE ARE" width="100%">
 <img src="assets/p-who-2.svg" alt="Cybersora is a software brand. We build desktop apps, local-first tools and AI assistants for real clients." width="100%">
 
-<img src="assets/stats.svg" alt="4 SoraFlux releases, 651 Pycodemath tests, 65 commits on cybersora.pl, 0 telemetry" width="100%">
+<img src="assets/stats.svg" alt="5 SoraFlux releases, 651 Pycodemath tests, 66 commits on cybersora.pl, 0 telemetry" width="100%">
 
 <img src="assets/h-what.svg" alt="02 WHAT WE BUILD" width="100%">
 
@@ -24,7 +24,7 @@
 
 <table>
 <tr>
-<td width="50%"><a href="https://github.com/cybersora9/soraflux/releases/latest"><img src="assets/b-download.svg" alt="Download SoraFlux v1.4.0" width="100%"></a></td>
+<td width="50%"><a href="https://github.com/cybersora9/soraflux/releases/latest"><img src="assets/b-download.svg" alt="Download SoraFlux v1.4.1" width="100%"></a></td>
 <td width="50%"><a href="https://cybersora.pl"><img src="assets/b-site.svg" alt="Visit cybersora.pl" width="100%"></a></td>
 </tr>
 </table>
