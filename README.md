@@ -14,10 +14,10 @@
 </tr>
 <tr>
 <td width="50%"><a href="https://cybersora.pl"><img src="assets/c-site-3.svg" alt="cybersora.pl: terminal-style site running in the browser. Public." width="100%"></a></td>
-<td width="50%"><img src="assets/c-somi-3.svg" alt="SOMI: personal AI assistant. Private." width="100%"></td>
+<td width="50%"><a href="https://cybersora.pl"><img src="assets/c-somi-3.svg" alt="SOMI: personal AI assistant. Private." width="100%"></a></td>
 </tr>
 <tr>
-<td width="50%"><img src="assets/c-salondesk-3.svg" alt="SalonDesk: desktop app for beauty salons. Private." width="100%"></td>
+<td width="50%"><a href="https://cybersora.pl"><img src="assets/c-salondesk-3.svg" alt="SalonDesk: desktop app for beauty salons. Private." width="100%"></a></td>
 <td width="50%"><img src="assets/c-more-3.svg" alt="More projects, not public yet." width="100%"></td>
 </tr>
 </table>
