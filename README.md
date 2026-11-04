@@ -22,6 +22,8 @@
 </tr>
 </table>
 
+<p align="center"><b>New: <a href="https://github.com/cybersora9/pycodemath/releases/tag/v0.5.1">Pycodemath 0.5.1</a></b> · 88 commands in 11 sections · <code>certify</code> finds the root SymPy's <code>solve</code> drops in <code>exp(x) = 3x</code> · MCP server for AI agents (9 tools)</p>
+
 <table>
 <tr>
 <td width="50%"><a href="https://github.com/cybersora9/soraflux/releases/latest"><img src="assets/b-download.svg" alt="Download SoraFlux v1.4.1" width="100%"></a></td>
