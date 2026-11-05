@@ -1,21 +1,29 @@
-import random, io, zlib, re
+"""Builds the profile README graphics (assets/*.svg). Text is drawn as paths, so GitHub needs no fonts.
+
+v5 (05.11.2026): personal profile ("I", not "we"), black cat brand, Start-style panels
+(#17171d, 20 px radius, no side bars), falling-code strips instead of pixels.
+"""
+import random, io, zlib, re, base64
+from PIL import Image
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 
 F = 'C:/Users/maisa/Documents/SoraWebsite/fonts/'
+DOC = 'C:/Users/maisa/Documents/'
+V = '5'  # bump to bust GitHub's image cache
 
 
 def load(n, w):
     return instantiateVariableFont(TTFont(F + n), {'wght': w})
 
 
-SORA = load('sora-latin-wght-normal.woff2', 800)
+SORA = load('sora-latin-wght-normal.woff2', 700)
 MONO = load('geist-mono-latin-wght-normal.woff2', 500)
 MONOB = load('geist-mono-latin-wght-normal.woff2', 700)
-INK = '#0e0e12'; RED = '#e11d33'; HOT = '#ff3a52'; SOLID = '#d4132b'
-MUTED = '#9a9098'; LABEL = '#ff6b7d'; PANEL = '#16161c'; LINE = '#2a2a33'; WHITE = '#f4f1f2'
+INK = '#0e0e12'; RED = '#e11d33'; HOT = '#ff3a52'; DARK = '#8f1726'; BONE = '#f6f2f3'
+MUTED = '#9a9098'; PANEL = '#17171d'; LINE = '#2c2c36'; BOX = '#1e1e26'
 
 
 def text(font, s, x, y, size, fill, track=0, anchor='start'):
@@ -43,160 +51,171 @@ def save(n, s):
     io.open('assets/' + n, 'w', encoding='utf-8', newline='\n').write(s)
 
 
-def pixels(x0, y0, w, h, cell, seed, left_fade=True, flick=True, gap=1):
-    random.seed(seed); o = []; cols = w // cell; rows = h // cell
-    for r in range(rows):
-        for c in range(cols):
-            p = c / max(cols - 1, 1)
-            if not left_fade:
-                p = 1 - p
-            if random.random() < 0.08 + 0.72 * p ** 1.6:
-                col = random.choices([RED, HOT, SOLID, '#7a1035', '#3a1a22', WHITE], [5, 3, 3, 3, 4, 1])[0]
-                op = round(random.uniform(.3, 1), 2)
-                cls = ' class="f%d"' % random.randint(1, 3) if flick and random.random() < .2 else ''
-                o.append(f'<rect{cls} x="{x0 + c * cell}" y="{y0 + r * cell}" width="{cell - gap}" height="{cell - gap}" fill="{col}" opacity="{op}"/>')
+FL = '@keyframes a{0%,100%{opacity:.25}50%{opacity:1}}.f1{animation:a 3s infinite}.f2{animation:a 4.3s .7s infinite}.f3{animation:a 5.1s 1.9s infinite}'
+CODE = '0123456789ABCDEF{}[]<>/$#%;:*+='
+
+
+def codestrip(x0, y, w, seed, size=14, step=17):
+    """A row of code glyphs that gets denser and redder to the right (falling-code motif, no pixels)."""
+    random.seed(seed); o = []; n = int(w // step)
+    for i in range(n):
+        p = i / max(n - 1, 1)
+        if random.random() > 0.15 + 0.7 * p ** 1.4:
+            continue
+        col = random.choices([DARK, RED, HOT, BONE], [6, 3, 1, .4])[0]
+        yy = y + random.choice([-9, 0, 0, 9])
+        t, _ = text(MONO, random.choice(CODE), x0 + i * step, yy, size, col)
+        op = round(.25 + .75 * p * random.uniform(.6, 1), 2)
+        cls = ' class="f%d"' % random.randint(1, 3) if random.random() < .18 else ''
+        o.append(f'<g{cls} opacity="{op}">{t}</g>')
     return ''.join(o)
 
 
-FL = '@keyframes a{0%,100%{opacity:.15}50%{opacity:1}}.f1{animation:a 3s infinite}.f2{animation:a 4.3s .7s infinite}.f3{animation:a 5.1s 1.9s infinite}'
-
-# BANNER
-W, H = 1200, 320
-b = f'<defs><linearGradient id="g"><stop offset="0" stop-color="{INK}" stop-opacity=".96"/><stop offset=".7" stop-color="{INK}" stop-opacity=".85"/><stop offset="1" stop-color="{INK}" stop-opacity="0"/></linearGradient></defs>'
-b += f'<rect width="{W}" height="{H}" fill="{INK}"/>' + pixels(0, 0, W, H, 20, 11)
-b += f'<rect width="760" height="{H}" fill="url(#g)"/>'
-t, _ = text(MONO, '// STUDIO  ·  AI TOOLS  ·  DESKTOP APPS', 56, 92, 17, LABEL, 3); b += t
-t, wd = text(SORA, 'CYBER', 52, 200, 104, WHITE, -2); b += t
-t, _ = text(SORA, 'SORA', 52 + wd + 10, 200, 104, RED, -2); b += t
-t, _ = text(MONO, 'cybersora.pl', 56, 262, 19, MUTED, 1); b += t
-LOGO = re.sub(r'^<svg[^>]*>|</svg>$', '', io.open('C:/Users/maisa/Documents/cybersora-assets/logo/cs-blackwall.svg', encoding='utf-8').read().strip())
-b += f'<rect x="852" y="48" width="296" height="224" fill="{INK}" opacity=".92"/><rect x="852" y="48" width="296" height="224" fill="none" stroke="{LINE}"/><rect x="852" y="48" width="296" height="3" fill="{RED}"/>'
-b += f'<svg x="880" y="86" width="240" height="149" viewBox="0 0 134 100">{LOGO}</svg>'
-b += f'<rect x="0" y="{H - 4}" width="{W}" height="4" fill="{RED}"/>'
-save('banner-4.svg', svg(W, H, b, FL))
-
-# SECTION HEADERS
-for n, (num, lab) in {'who': ('01', 'WHO WE ARE'), 'what': ('02', 'WHAT WE BUILD'), 'vision': ('03', 'VISION'),
-                      'stack': ('04', 'STACK'), 'beyond': ('05', 'BEYOND CODE')}.items():
-    W2 = 1200; H2 = 56
-    s = f'<rect width="{W2}" height="{H2}" fill="{INK}"/><rect width="6" height="{H2}" fill="{RED}"/>'
-    t, w1 = text(MONO, num, 28, 36, 15, RED, 2); s += t
-    t, w2 = text(SORA, lab, 28 + w1 + 18, 38, 26, WHITE, 1); s += t
-    xs = int(28 + w1 + 18 + w2 + 24)
-    s += pixels(xs, 12, W2 - xs, 32, 8, zlib.crc32(n.encode()) % 99)
-    save(f'h-{n}.svg', svg(W2, H2, s, FL))
+def rpanel(w, h, fill=PANEL):
+    return f'<rect x="1" y="1" width="{w - 2}" height="{h - 2}" rx="20" fill="{fill}" stroke="{LINE}"/>'
 
 
-def panel(name, lines, H2, size=19):
-    W2 = 1200
-    s = f'<rect width="{W2}" height="{H2}" fill="{PANEL}"/><rect width="6" height="{H2}" fill="{LINE}"/>'
-    y = 42
+# SECTION HEADERS: number + title, then a code strip. No side bar.
+for n, (num, lab) in {'who': ('01', 'WHO I AM'), 'what': ('02', 'WHAT I BUILD'), 'how': ('03', 'HOW I WORK'),
+                      'stack': ('04', 'STACK'), 'art': ('05', 'BEYOND CODE')}.items():
+    W2 = 1200; H2 = 64
+    s = ''
+    t, w1 = text(MONOB, num, 4, 42, 18, RED, 2); s += t
+    t, w2 = text(SORA, lab, 4 + w1 + 18, 44, 32, BONE, 1); s += t
+    xs = int(4 + w1 + 18 + w2 + 36)
+    s += codestrip(xs, 40, W2 - xs, zlib.crc32(n.encode()) % 99)
+    save(f'h-{n}-{V}.svg', svg(W2, H2, s, FL))
+
+
+def panel(name, lines, size=24):
+    W2 = 1200; gap = 16; H2 = 52 + len(lines) * (size + gap)
+    s = rpanel(W2, H2)
+    y = 40 + size
     for ln, col in lines:
-        t, _ = text(MONO, ln, 32, y, size, col, 0); s += t; y += size + 14
+        if ln.startswith('>'):
+            t, _ = text(MONOB, '>', 36, y, size, RED); s += t
+            ln = ln[1:]
+        t, _ = text(MONO, ln, 36 + size * .6, y, size, col); s += t; y += size + gap
     save(name, svg(W2, H2, s))
 
 
-panel('p-who-2.svg', [('> cybersora is a software brand.', WHITE),
-                    ('> we build desktop apps, local-first tools and AI assistants.', WHITE),
-                    ('> shipped for real clients. not templates, not tutorials.', MUTED)], 142)
-panel('p-vision.svg', [('> software that runs on your machine and respects your data.', WHITE),
-                       ('> one job per tool, done well. no telemetry, no fluff.', MUTED)], 100)
-panel('p-beyond.svg', [('> music production, game design, terminal toys,', WHITE),
-                       ('> and tools we wish already existed.', MUTED)], 100)
-
-
-LOGO = 'C:/Users/maisa/Documents/'
+panel(f'p-who-{V}.svg', [
+    ("> hi, I'm blackcat. my artist name: deadsora.", BONE),
+    ('> artist first. art is where it all started,', BONE),
+    ('  then code came along and stuck.', BONE),
+    ('> I think it up, design it and code it myself:', BONE),
+    ('  desktop apps, websites, AI tools.', BONE),
+    ('> cybersora is the brand I build under.', MUTED)])
+panel(f'p-how-{V}.svg', [
+    ('> AI is my team: code, tests, graphics, research,', BONE),
+    ('  automations, even my own agents.', BONE),
+    ('> I check its work: pytest, Playwright, and', BONE),
+    ('  screenshots I actually look at.', BONE),
+    ('> local-first. your data stays on your machine.', MUTED)])
+panel(f'p-art-{V}.svg', [
+    ('> deadsora is my other face, my artist name.', BONE),
+    ('> logos, banners, post templates, graphics.', BONE),
+    ('> emotions, cats and art. code is art too.', BONE),
+    ('> my art on Instagram: @deadsora', MUTED)])
 
 
 def mark(path, x, y, size, uid):
     """Official product mark (own SVG file) nested as <svg>; ids prefixed to avoid clashes."""
-    raw = io.open(LOGO + path, encoding='utf-8').read()
+    raw = io.open(DOC + path, encoding='utf-8').read()
     vb = re.search(r'viewBox="([^"]+)"', raw).group(1)
     inner = re.sub(r'^.*?<svg[^>]*>|</svg>\s*$', '', raw, flags=re.S)
-    inner = re.sub(r'<!--.*?-->', '', inner, flags=re.S)
+    inner = re.sub(r'<!--.*?-->|<title>.*?</title>', '', inner, flags=re.S)
     inner = re.sub(r'\bid="([^"]+)"', lambda m: f'id="{uid}{m.group(1)}"', inner)
     inner = re.sub(r'url\(#([^)]+)\)', lambda m: f'url(#{uid}{m.group(1)})', inner)
     inner = re.sub(r'href="#([^"]+)"', lambda m: f'href="#{uid}{m.group(1)}"', inner)
     return f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{vb}">{inner}</svg>'
 
 
-def card(name, title, desc, tag, pub=True, ver=None, logo=None):
-    W2, H2 = 588, 150
-    s = f'<rect width="{W2}" height="{H2}" fill="{PANEL}"/><rect width="{W2}" height="3" fill="{RED if pub else LINE}"/>'
-    if logo:
-        s += mark(logo, 24, 24, 52, name.split('.')[0].replace('-', '') + '_')
+def card(name, title, desc, tag, pub=True, ver=None, logo=None, logo_bg=None):
+    W2, H2 = 588, 210
+    s = rpanel(W2, H2)
+    uid = name.split('.')[0].replace('-', '') + '_'
+    if logo_bg:  # marks that are not tiles get a round krew plate (Meshuga)
+        s += f'<circle cx="62" cy="62" r="34" fill="{logo_bg}"/>' + mark(logo, 34, 34, 56, uid)
     else:
-        s += f'<rect x="24" y="28" width="44" height="44" rx="4" fill="{INK}" stroke="{LINE}"/>'
-        t, _ = text(SORA, title[0].upper(), 46, 59, 26, MUTED, 0, 'middle'); s += t
-    t, _ = text(SORA, title, 92, 60, 28, WHITE if pub else MUTED, 0); s += t
+        s += f'<g><clipPath id="{uid}c"><rect x="28" y="28" width="68" height="68" rx="16"/></clipPath>' \
+             f'<g clip-path="url(#{uid}c)">{mark(logo, 28, 28, 68, uid)}</g></g>'
+    t, _ = text(SORA, title, 116, 74, 32, BONE, 0); s += t
     for i, ln in enumerate(desc):
-        t, _ = text(MONO, ln, 24, 100 + i * 22, 15, MUTED, 0); s += t
+        t, _ = text(MONO, ln, 28, 138 + i * 28, 19, MUTED, 0); s += t
     label = 'PUBLIC' if pub else 'PRIVATE'
-    _, tw = text(MONOB, label, 0, 0, 12, '#fff', 2)
-    px = W2 - 24 - tw - 20
-    s += f'<rect x="{px}" y="30" width="{tw + 20}" height="24" rx="12" fill="{RED if pub else "none"}" stroke="{RED if pub else LINE}"/>'
-    t, _ = text(MONOB, label, px + 10, 47, 12, '#fff' if pub else MUTED, 2); s += t
-    t, _ = text(MONO, tag, W2 - 24, 28 + 24 + 28, 13, LABEL if pub else '#6a626c', 1, 'end'); s += t
+    _, tw = text(MONOB, label, 0, 0, 13, '#fff', 2)
+    px = W2 - 28 - tw - 24
+    s += f'<rect x="{px}" y="30" width="{tw + 24}" height="28" rx="14" fill="{RED if pub else BOX}" stroke="{RED if pub else LINE}"/>'
+    t, _ = text(MONOB, label, px + 12, 49, 13, '#fff' if pub else MUTED, 2); s += t
+    t, _ = text(MONO, tag, W2 - 28, 88, 14, HOT if pub else MUTED, 1, 'end'); s += t
     if ver:
-        t, _ = text(MONOB, ver, W2 - 24, H2 - 18, 15, WHITE, 1, 'end'); s += t
+        t, _ = text(MONOB, ver, W2 - 28, H2 - 22, 16, BONE, 1, 'end'); s += t
     save(name, svg(W2, H2, s))
 
 
-card('c-soraflux-4.svg', 'SoraFlux', ['Free local converter: video, audio,', 'image, GIF. No telemetry.'], 'TAURI 2 · RUST', ver='v1.4.1', logo='cybersora-assets/logo/produkty/soraflux/soraflux-kafelek-krew.svg')
-card('c-pycodemath-3.svg', 'Pycodemath', ['Exact math for AI agents. Token-', 'efficient, SymPy + NumPy.'], 'PYTHON · SYMPY · NUMPY', ver='651 TESTS', logo='cybersora-assets/logo/produkty/pycodemath/pycodemath-kafelek-krew.svg')
-card('c-site-3.svg', 'cybersora.pl', ['Our site: a terminal-style OS,', 'running in the browser.'], 'HTML · JAVASCRIPT', ver='LIVE', logo='cybersora-assets/ikony/ikona-krew.svg')
-card('c-somi-3.svg', 'SOMI', ['Personal AI assistant: voice,', 'terminal, offers radar.'], 'PYTHON · AI', pub=False, logo='cybersora-assets/logo/somi-terminal-kafelek-ink.svg')
-card('c-salondesk-3.svg', 'SalonDesk', ['Desktop app for beauty salons,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False, logo='SalonDesk/assets/znak/salondesk-kafelek-krew.svg')
-card('c-more-3.svg', '+ more', ['Games, licensing, security tools.', 'Not public yet.'], 'SOON', pub=False)
+P = 'cybersora-assets/logo/produkty/'
+card(f'c-pycodemath-{V}.svg', 'Pycodemath', ['Checks the math in your code.', 'On PyPI. MCP server for AI.'], 'PYTHON · SYMPY', ver='v0.5.1', logo=P + 'pycodemath/pycodemath-kafelek-krew.svg')
+card(f'c-salondesk-{V}.svg', 'SalonDesk', ['Desktop app for a beauty salon,', 'used in a real salon.'], 'PYTHON · SQLITE', pub=False, logo='SalonDesk/assets/znak/salondesk-kafelek-krew.svg')
+card(f'c-site-{V}.svg', 'cybersora.pl', ['My site: a desktop OS in the', 'browser, with an AI chatbot.'], 'HTML · JAVASCRIPT', ver='LIVE', logo='cybersora-assets/ikony/ikona-krew.svg')
+card(f'c-meshuga-{V}.svg', 'Meshuga', ['The AI chatbot of cybersora,', 'on the site and on Discord.'], 'PYTHON · AI', pub=False, logo='cybersora-assets/logo/kot-awatar/meshuga.svg', logo_bg=RED)
+card(f'c-reader-{V}.svg', 'SoraEbookReader', ['E-book reader for Windows.', 'Coming soon.'], 'TAURI · JS', pub=False, ver='SOON', logo=P + 'soraczytnik/soraczytnik-kafelek-krew.svg')
+card(f'c-soraflux-{V}.svg', 'SoraFlux', ['Local video, audio, image and', 'GIF converter.'], 'TAURI 2 · RUST', pub=False, ver='v1.4.1', logo=P + 'soraflux/soraflux-kafelek-krew.svg')
 
-# STACK chips
-items = ['RUST', 'PYTHON', 'JAVASCRIPT', 'TAURI', 'SQLITE', 'THREE.JS', 'NEXT.JS', 'HTML/CSS', 'GIT', 'DISCORD API']
+# STACK chips (rounded, no side bar)
+items = ['PYTHON', 'RUST', 'JAVASCRIPT', 'HTML/CSS', 'TAURI', 'SQLITE', 'SYMPY', 'NUMPY', 'PYTEST', 'PLAYWRIGHT',
+         'MCP', 'AI AGENTS', 'GIT', 'LINUX', 'ADOBE']
 W2 = 1200; x = 0; y = 0; pos = []
 for it in items:
-    _, tw = text(MONOB, it, 0, 0, 15, RED, 1); w = tw + 40
+    _, tw = text(MONOB, it, 0, 0, 18, RED, 1); w = tw + 44
     if x + w > W2:
-        x = 0; y += 52
+        x = 0; y += 60
     pos.append((x, y, w, it)); x += w + 12
-H2 = y + 40
-s = f'<rect width="{W2}" height="{H2}" fill="{INK}"/>'
+H2 = y + 48
+s = ''
 for x, y, w, it in pos:
-    s += f'<rect x="{x}" y="{y}" width="{w}" height="40" rx="3" fill="{PANEL}" stroke="{LINE}"/><rect x="{x}" y="{y}" width="4" height="40" fill="{RED}"/>'
-    t, _ = text(MONOB, it, x + 20, y + 26, 15, WHITE, 1); s += t
-save('stack.svg', svg(W2, H2, s))
+    s += f'<rect x="{x + .5}" y="{y + .5}" width="{w - 1}" height="47" rx="23.5" fill="{PANEL}" stroke="{LINE}"/>'
+    t, _ = text(MONOB, it, x + 22, y + 31, 18, BONE, 1); s += t
+save(f'stack-{V}.svg', svg(W2, H2, s))
 
-# FOOTER
-W2, H2 = 1200, 110
-s = f'<defs><linearGradient id="g2"><stop offset="0" stop-color="{INK}" stop-opacity=".97"/><stop offset=".6" stop-color="{INK}" stop-opacity=".9"/><stop offset="1" stop-color="{INK}" stop-opacity="0"/></linearGradient></defs>'
-s += f'<rect width="{W2}" height="{H2}" fill="{INK}"/>' + pixels(0, 0, W2, H2, 16, 5, left_fade=False)
-s += f'<rect width="{W2}" height="{H2}" fill="url(#g2)"/>'
-t, _ = text(SORA, 'cybersora.pl', 40, 66, 36, WHITE, 0); s += t
-t, _ = text(MONO, 'terminal-style site, free tools, contact', 40, 92, 15, MUTED, 1); s += t
-s += f'<rect x="0" y="{H2 - 3}" width="{W2}" height="3" fill="{RED}"/>'
-save('footer.svg', svg(W2, H2, s, FL))
-
-# STATS
-W2, H2 = 1200, 110
-items = [('5', 'SORAFLUX RELEASES'), ('651', 'PYCODEMATH TESTS'), ('66', 'COMMITS ON CYBERSORA.PL'), ('0', 'TELEMETRY')]
-s = f'<rect width="{W2}" height="{H2}" fill="{INK}"/>'
+# STATS: numbers measured 05.11.2026 (PyPI, pytest --collect-only, GitHub contributions)
+W2, H2 = 1200, 128
+items = [('3082', 'PYCODEMATH TESTS'), ('88', 'PYCODEMATH COMMANDS'), ('568', 'CONTRIBUTIONS, LAST YEAR'), ('1', 'REAL SALON ON SALONDESK')]
+s = ''
 cw = 288; gap = 16
 for i, (n, lab) in enumerate(items):
     x = i * (cw + gap)
-    s += f'<rect x="{x}" y="0" width="{cw}" height="{H2}" fill="{PANEL}"/><rect x="{x}" y="0" width="4" height="{H2}" fill="{RED}"/>'
-    t, _ = text(SORA, n, x + 28, 62, 44, WHITE, 0); s += t
-    t, _ = text(MONOB, lab, x + 28, 92, 12, LABEL, 2); s += t
-save('stats.svg', svg(W2, H2, s))
+    s += f'<rect x="{x + .5}" y=".5" width="{cw - 1}" height="{H2 - 1}" rx="20" fill="{PANEL}" stroke="{LINE}"/>'
+    t, _ = text(SORA, n, x + 28, 70, 48, BONE, 0); s += t
+    t, _ = text(MONOB, lab, x + 28, 102, 13, HOT, 1.5); s += t
+save(f'stats-{V}.svg', svg(W2, H2, s))
 
-# BUTTONS
+
 def button(name, label, sub, primary):
-    W2, H2 = 588, 84
-    s = f'<rect width="{W2}" height="{H2}" fill="{RED if primary else PANEL}"/>'
-    if not primary:
-        s += f'<rect width="{W2}" height="{H2}" fill="none" stroke="{RED}" stroke-width="2"/>'
-    t, _ = text(SORA, label, 28, 40, 26, '#fff' if primary else WHITE, 0); s += t
-    t, _ = text(MONO, sub, 28, 65, 14, '#ffd5da' if primary else MUTED, 1); s += t
-    t, _ = text(SORA, '>', W2 - 28, 52, 34, '#fff' if primary else RED, 0, 'end'); s += t
+    W2, H2 = 588, 96
+    s = (f'<rect width="{W2}" height="{H2}" rx="20" fill="{RED}"/>' if primary else
+         f'<rect x="1" y="1" width="{W2 - 2}" height="{H2 - 2}" rx="19" fill="{PANEL}" stroke="{RED}" stroke-width="2"/>')
+    t, _ = text(SORA, label, 28, 46, 28, '#fff' if primary else BONE, 0); s += t
+    t, _ = text(MONO, sub, 28, 74, 15, '#ffd5da' if primary else MUTED, 1); s += t
+    t, _ = text(SORA, '>', W2 - 28, 60, 34, '#fff' if primary else RED, 0, 'end'); s += t
     save(name, svg(W2, H2, s))
 
 
-button('b-download.svg', 'Download SoraFlux', 'FREE  ·  WINDOWS  ·  v1.4.1', True)
-button('b-site.svg', 'Visit cybersora.pl', 'THE TERMINAL-STYLE SITE', False)
+button(f'b-pypi-{V}.svg', 'Pycodemath on PyPI', 'pip install pycodemath', True)
+button(f'b-site-{V}.svg', 'Visit cybersora.pl', 'SITE  ·  CONTACT  ·  MESHUGA', False)
+
+# FOOTER: contact + the cat avatar (raster, embedded)
+im = Image.open(DOC + 'cybersora-assets/logo/kot-awatar/FB-awatar-1080.png').convert('RGBA').resize((192, 192), Image.LANCZOS)
+from PIL import ImageDraw
+m = Image.new('L', (768, 768), 0); ImageDraw.Draw(m).ellipse((4, 4, 764, 764), fill=255)
+im.putalpha(Image.composite(im.getchannel('A'), Image.new('L', (192, 192), 0), m.resize((192, 192), Image.LANCZOS)))
+buf = io.BytesIO(); im.save(buf, 'PNG', optimize=True)
+cat = base64.b64encode(buf.getvalue()).decode()
+W2, H2 = 1200, 160
+s = rpanel(W2, H2)
+t, wc = text(SORA, 'cyber', 36, 78, 40, BONE, 0); s += t
+t, _ = text(SORA, 'sora', 36 + wc, 78, 40, RED, 0); s += t
+t, _ = text(MONO, 'cybersora.pl  ·  cybersora@zohomail.eu  ·  IG @deadsora', 36, 116, 18, MUTED, 0); s += t
+s += codestrip(700, 84, 300, 7, 16, 19)
+s += f'<image x="{W2 - 36 - 112}" y="24" width="112" height="112" href="data:image/png;base64,{cat}"/>'
+save(f'footer-{V}.svg', svg(W2, H2, s, FL))
